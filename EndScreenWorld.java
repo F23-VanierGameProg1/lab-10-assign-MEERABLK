@@ -10,7 +10,7 @@ public class EndScreenWorld extends SimulationWorld
 {
 
     GreenfootSound music;
-
+       double timeEndScreenCreation = System.currentTimeMillis();
 
     /**
      * Constructor for objects of class EndScreenWorld.
@@ -47,7 +47,10 @@ public class EndScreenWorld extends SimulationWorld
             transitionToWorld(new SpaceWorld()); 
 
         }
-
+         if (System.currentTimeMillis() >=(timeEndScreenCreation + 10000))
+         {
+             transitionToWorld(new SpaceWorld());
+         }
 
     
     }

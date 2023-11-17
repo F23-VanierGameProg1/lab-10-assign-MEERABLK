@@ -27,7 +27,10 @@ public class SpaceWorld extends SimulationWorld
             cameraCenter.setY(player.getPosition().getY() + 6.0);
         }
 
-        
+        else
+        {
+            transitionToWorld(new EndScreenWorld(getObjects(Score.class).get(0).getScore()));
+        }
     }
 
     private void prepare()
