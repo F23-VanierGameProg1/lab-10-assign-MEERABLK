@@ -24,7 +24,36 @@ public class SpaceShip extends SimulationActor
 
     public void destroyShipOnCollision()
     {
-
+        if (destroyedShip == false)
+        {
+            SimulationWorld world = (SimulationWorld) getWorld();
+            List<Asteroid> asteroids = world.getObjects(Asteroid.class);
+            
+            
+            for (int i = 0; i<asteroids.size(); i++)
+            {
+                Asteroid asteroid = asteroids.get(i);
+                
+                Vector2D asteroidToShip = new Vector2D(asteroid.getX() - getX(), asteroid.getY() - getY());
+                double distance = asteroidToShip.magnitude();
+                
+                double asteroidRadius = asteroid.getImage().getHeight()/2;
+                double shipRadius = getImage().getHeight()/2;
+                
+                if (distance<asteroidRadius + shipRadius)
+                {
+                    //remove the ship
+                    getSimulationWorld().addObject(new Explosion(), getX(), getY());
+                    world.removeObject(this);
+                    
+                    destroyedShip = true;
+                    return;
+                }
+                
+                
+            }
+            
+        }
         
     }
 

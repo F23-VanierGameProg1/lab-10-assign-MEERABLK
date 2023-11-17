@@ -1,11 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.*;
 
 public class Asteroid extends SimulationActor
 {
 
-    private boolean destroyed;
- 
+      private boolean destroyed;
+      private int health = 3;
     
     public Asteroid()
     {
@@ -25,7 +25,36 @@ public class Asteroid extends SimulationActor
 
         if (destroyed == false)
         {
-            
+             SimulationWorld world = (SimulationWorld) getWorld();
+             List<Bullet> bullets = getWorld().getObjects(Bullet.class);
+             
+             for (int i=0; i<bullets.size(); i++)
+             {
+                 Bullet bullet = bullets.get(i);
+                 
+                 
+                 Vector2D bulletToAsteroid = new Vector2D(bullet.getX() - getX(), bullet.getY() - getY());
+                 double distance = bulletToAsteroid.magnitude();
+                 
+                 double bulletRadius = bullet.getImage().getHeight()/2;
+                 double asteroidRadius = getImage().getHeight()/2;
+                 if (distance < bulletRadius + asteroidRadius)
+                 {
+                     //remove bullet
+                     world.removeObject(bullet);
+                     health = health - 1;
+                     
+                     if (health ==0)
+                     {
+                         getSimulationWorld().addObject(new Explosion(), getX(), getY());
+                         world.removeObject(this);
+                         
+                         
+                         destroyed = true;
+                         return;
+                     }
+                 }
+             }
 
         }
 
